@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060B14">
+<title>Privacy · Palmyn Demo</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="alternate" hreflang="es" href="privacidad">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="legal.css">
+</head>
+<body>
+<!--
+  Traducción de privacidad.html. Si cambia la versión en español, actualizar esta también.
+  Ante cualquier diferencia prevalece la versión en español (lo dice la nota de abajo).
+-->
+<div class="wrap">
+  <div class="bar"><a class="logo" href="/?lang=en"><img src="logo-mark.png" alt="" width="26" height="26">Palmyn</a>
+    <div class="acts"><a class="lang" href="privacidad" hreflang="es" lang="es" title="Ver en español"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg><span>ES</span></a><a class="back" href="/?lang=en">← Back to the demo</a></div></div>
+
+  <header class="top">
+    <div class="eyebrow">// Public demo</div>
+    <h1>Privacy policy</h1>
+    <p class="meta">Last updated: November 12, 2026 · Applies to demo.palmyn.com</p>
+    <p class="note">This English version is provided for convenience. In case of any discrepancy, the <a href="privacidad">Spanish version</a> prevails.</p>
+  </header>
+
+  <div class="summary">
+    <h2>In short</h2>
+    <ul>
+      <li><strong>We don't store images or biometric data.</strong> The crop of your palm is processed in memory and deleted when each attempt ends.</li>
+      <li><strong>Your template stays in your browser, encrypted.</strong> We don't keep it on the server. If you delete it, it's gone.</li>
+      <li><strong>We don't store your IP address.</strong> We only use it in the moment, to limit abuse and to know which country the connection comes from.</li>
+      <li><strong>Statistics are optional and anonymous.</strong> They are only sent if you turn on the toggle, and they are deleted after 12 months.</li>
+      <li><strong>We don't use cookies or third-party analytics or advertising tools.</strong></li>
+    </ul>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <ol>
+      <li><a href="#controller">Who is responsible</a></li>
+      <li><a href="#what">What this demo is</a></li>
+      <li><a href="#data">What data is processed</a></li>
+      <li><a href="#stats">Optional statistics</a></li>
+      <li><a href="#basis">Why we process it</a></li>
+      <li><a href="#providers">Providers and location</a></li>
+      <li><a href="#browser">What stays in your browser</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#rights">Your rights</a></li>
+      <li><a href="#age">Age and residence</a></li>
+      <li><a href="#changes">Changes to this policy</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ol>
+  </nav>
+
+  <section id="controller">
+    <h2>1. Who is responsible</h2>
+    <p>The controller of the data processed in this demo is <strong>PALMYN S.A.S.</strong>, CUIT 30-71949550-4, with registered and tax address at Av. Córdoba 1352, 1st floor, C1055AAQ, Autonomous City of Buenos Aires, Argentina ("Palmyn" or "we"). This policy is governed by Argentine Law 25,326 on the Protection of Personal Data and its complementary regulations.</p>
+  </section>
+
+  <section id="what">
+    <h2>2. What this demo is</h2>
+    <p>It is a public palm recognition test. You can register your palm ("enroll") and then check whether the system recognizes it ("verify"). It is a technical demonstration: it doesn't create an account, it doesn't identify you to anyone, and the result has no validity for any formal purpose.</p>
+  </section>
+
+  <section id="data">
+    <h2>3. What data is processed</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Data</th><th>Purpose</th><th>Where and for how long</th></tr></thead>
+      <tbody>
+        <tr><td>Camera image</td>
+          <td>Find your hand and guide you during capture.</td>
+          <td>Processed only on your device. The video is not sent anywhere.</td></tr>
+        <tr><td>Palm crop</td>
+          <td>Compute your biometric template. Each attempt sends 3 grayscale crops of 224×224 pixels.</td>
+          <td>Processed in the server's memory and discarded when it responds. Never stored.</td></tr>
+        <tr><td>Biometric template</td>
+          <td>Compare your palm when you verify.</td>
+          <td>The server computes it, encrypts it and returns it to you. It stays in your browser (see <a href="#browser">section 7</a>); on the server it is discarded when it responds.</td></tr>
+        <tr><td>IP address</td>
+          <td>Limit the number of attempts per hour, keep the demo unavailable in excluded regions and, if you turned on statistics, derive the country.</td>
+          <td>The application keeps it in memory for up to 1 hour for the attempt limit and never writes it to any database. See also <a href="#providers">section 6</a>.</td></tr>
+        <tr><td>Consent acceptance</td>
+          <td>Check that you accepted each declaration before your palm is processed.</td>
+          <td>Sent with each request (version and accepted declarations). Not stored.</td></tr>
+      </tbody>
+    </table></div>
+    <p>We don't ask for your name, email, phone number or ID, and there are no user accounts.</p>
+  </section>
+
+  <section id="stats">
+    <h2>4. Optional statistics</h2>
+    <p>If you turn on <strong>"Share anonymous statistics"</strong>, we keep a record of each verification and each failed capture to improve the model. If you don't, your browser sends none of this.</p>
+    <h3>What is stored</h3>
+    <ul>
+      <li><strong>For each verification:</strong> whether it matched, the rounded similarity score, how many days have passed since you enrolled your palm, the date and time, and the model version.</li>
+      <li><strong>For each failed capture:</strong> the reason (no hand seen, back of the hand shown, hand sideways, out of frame or moving), whether you were enrolling or verifying, the date and time, and the model version.</li>
+      <li><strong>In both cases:</strong> the type of system (Android, iOS, Windows, etc.), the type of device (phone, tablet or computer), which camera you used (front or rear), the video resolution and the country, derived from your IP address at that moment.</li>
+    </ul>
+    <h3>What is not stored</h3>
+    <p>No images, no template, no IP address, no token and no browser identifier. The records contain nothing that links them to each other or to you.</p>
+    <h3>For how long</h3>
+    <p>They are deleted automatically after 12 months. You can turn the toggle off at any time, effective from that moment. Because the records are anonymous, we cannot find the ones you already sent in order to delete them.</p>
+  </section>
+
+  <section id="basis">
+    <h2>5. Why we process it</h2>
+    <p>We process your palm because you give us your <strong>express consent</strong>, declaration by declaration, before the camera opens. Statistics have a separate, optional consent: not turning them on changes nothing in the demo.</p>
+    <p>We use the IP address to limit attempts and apply the geographic exclusions in our interest of protecting the service against abuse.</p>
+    <p>You can withdraw your consent at any time with the <strong>"Withdraw my consent and close the camera"</strong> button. This does not affect what was already processed.</p>
+  </section>
+
+  <section id="providers">
+    <h2>6. Providers and location</h2>
+    <p>The demo runs on servers of <strong>Hostinger</strong>, our hosting provider, located in <strong>Brazil</strong>. The application and the optional statistics database run there. Hostinger keeps server backups in the <strong>United States</strong>; they may include the optional statistics, which are anonymous, and are kept according to its backup policy. Connections also go through Hostinger's content delivery network (CDN), which has nodes in several countries and only relays requests, without storing your palm crops.</p>
+    <p>Using the demo therefore involves an <strong>international transfer of data</strong> outside Argentina, which you expressly accept in the first consent checkbox, and which we carry out with a provider that applies security measures to the information.</p>
+    <p>Like any web server, Hostinger's may log technical data about each connection (for example IP address, date and requested page) under its own policies. We don't use those logs to identify anyone.</p>
+    <p>The fonts and the hand detection library (MediaPipe, by Google) are served from our own domain: your browser doesn't connect to other services.</p>
+    <p>We don't sell or share data with third parties, unless a competent authority requires it by law.</p>
+  </section>
+
+  <section id="browser">
+    <h2>7. What stays in your browser</h2>
+    <p>When you enroll, your browser saves a <strong>token</strong> in its local storage (<code>localStorage</code>). It is your biometric template, encrypted with a key that only the server has: the token alone cannot be used to reconstruct your palm. The server decrypts it only when you send it to verify, and discards it when it responds.</p>
+    <ul>
+      <li>It expires after <strong>90 days</strong>.</li>
+      <li>You can delete it with the <strong>"Delete token"</strong> button or by clearing the site data in your browser.</li>
+      <li>Once deleted, neither you nor we can recover it: you would need to enroll again.</li>
+    </ul>
+    <p>We don't use cookies. Your language choice for the demo is also saved in local storage.</p>
+  </section>
+
+  <section id="security">
+    <h2>8. Security</h2>
+    <p>All communication is encrypted with HTTPS. The token is protected with authenticated encryption (AES-256-GCM), so it cannot be read or modified without the server detecting it. We also limit attempts per hour to make abuse harder. No system is infallible, but the design avoids storing on the server what matters most to protect: your biometrics.</p>
+  </section>
+
+  <section id="rights">
+    <h2>9. Your rights</h2>
+    <p>You have the right to access, rectify and delete your personal data, and to withdraw your consent. In this demo:</p>
+    <ul>
+      <li><strong>Your template</strong> exists only in your browser: you control it and delete it with "Delete token".</li>
+      <li><strong>Statistics</strong> are anonymous, so we cannot link them to you to show them to you or delete them one by one. They are deleted automatically after 12 months.</li>
+      <li>For any request, write to the address in <a href="#contact">section 12</a>.</li>
+    </ul>
+    <p>The data subject has the right to access their personal data free of charge at intervals of no less than six months, unless a legitimate interest is shown, as provided in article 14, paragraph 3 of Law No. 25,326.</p>
+    <p>The AGENCY FOR ACCESS TO PUBLIC INFORMATION (Agencia de Acceso a la Información Pública), as the Control Body of Law No. 25,326, has the power to handle complaints and claims filed by those whose rights are affected by non-compliance with the rules on personal data protection.</p>
+  </section>
+
+  <section id="age">
+    <h2>10. Age and residence</h2>
+    <p>The demo is only for people <strong>18 or older</strong> using <strong>their own hand</strong>. For now it is not available to residents of <strong>Illinois, Texas and Washington</strong> (USA), which have specific biometric data laws; the service is blocked from those regions based on the approximate location of the connection.</p>
+  </section>
+
+  <section id="changes">
+    <h2>11. Changes to this policy</h2>
+    <p>If we change what data we process, we update this page and the date above. If the change affects consent, the demo will ask you to accept it again before opening the camera.</p>
+  </section>
+
+  <section id="contact">
+    <h2>12. Contact</h2>
+    <p>For privacy questions or to exercise your rights, write to <a href="mailto:admin@palmyn.com">admin@palmyn.com</a>.</p>
+  </section>
+
+  <footer><a href="/?lang=en">Demo</a><a href="terms">Terms and conditions</a><a href="https://github.com/PalmynBiometrics/palmyn-palmprint-demo" rel="noopener">GitHub</a><span>© 2026 Palmyn</span></footer>
+</div>
+</body>
+</html>

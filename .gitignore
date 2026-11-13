@@ -1,0 +1,38 @@
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Modelos: nunca al repo
+models/*
+!models/README.md
+*.onnx
+*.onnx.data
+*.pt
+
+# Datos: nunca al repo (ROIs, estadisticas, logs)
+data/
+*.png
+!web/*.png
+!docs/img/*.png
+*.bin
+*.jsonl
+*.log
+
+# Assets de MediaPipe para la pagina de prueba (copiados de la app)
+web/vendor/
+
+# Config local de Claude Code
+.claude/
+
+# Paquetes de deploy: nunca al repo
+dist/
+
+# Borradores de diseño (solo locales)
+mockups/
+
+# Operación y deploy (solo locales: el repo es para mostrar la tecnología)
+DEPLOY_HOSTINGER.md
+.env.example
+scripts/
+models/

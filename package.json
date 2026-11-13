@@ -1,0 +1,25 @@
+{
+  "name": "palmyn-demo",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Palmyn: contactless palm recognition from any smartphone camera, with no biometric data stored on the server.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/token.test.js test/stats.test.js test/api.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mysql2": "^3.24.6",
+    "onnxruntime-node": "^1.26.0",
+    "pngjs": "^7.0.0"
+  },
+  "optionalDependencies": {
+    "geoip-lite": "^1.4.10"
+  },
+  "homepage": "https://demo.palmyn.com"
+}
