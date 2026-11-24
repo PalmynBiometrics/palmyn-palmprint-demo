@@ -16,7 +16,8 @@ const video = $("video"), overlay = $("overlay"), octx = overlay.getContext("2d"
 let consentVersion = null, videoLm = null, imageLm = null;
 let accepted = false, camOn = false, busy = false, looping = false, mode = "enroll";
 let cams = [], camIdx = -1;
-const live = { hand: false, inBounds: false, tooBig: false, facing: "none", okSince: 0 };
+const live = { hand: false, inBounds: false, tooBig: false, facing: "none", okSince: 0, luma: -1, dark: false };
+let torchOn = false;
 let errUntil = 0;
 let consentData = null, lastResult = null, shotsN = 0;
 let camFacingMode = "unknown";
@@ -97,6 +98,9 @@ async function startCam(deviceId) {
   camFacingMode = camFacing === "user" || camFacing === "environment" ? camFacing : "unknown";
   setMirror(camFacing !== "environment");
   camOn = true;
+  torchOn = false; live.luma = -1; live.dark = false;
+  updateTorch();
+  setTimeout(updateTorch, 700);         // algunos Android informan la linterna recién después del primer frame
   try {
     cams = (await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === "videoinput");
     const cur = stream.getVideoTracks()[0]?.getSettings?.().deviceId;
@@ -106,7 +110,52 @@ async function startCam(deviceId) {
 }
 function stopCam() {
   if (video.srcObject) video.srcObject.getTracks().forEach((t) => t.stop());
-  video.srcObject = null; camOn = false;
+  video.srcObject = null; camOn = false; torchOn = false;
+  updateTorch();
+}
+
+// ── linterna ─────────────────────────────────────────────────────────────────
+// Solo aparece si la cámara activa la ofrece (en general la trasera en Android). Al cambiar o
+// cerrar la cámara se apaga sola, porque el track se detiene.
+const camTrack = () => video.srcObject?.getVideoTracks?.()[0] || null;
+function torchSupported() {
+  try { return !!camTrack()?.getCapabilities?.().torch; } catch { return false; }
+}
+function updateTorch() {
+  const b = $("btnTorch");
+  b.hidden = !camOn || !torchSupported();
+  b.setAttribute("aria-pressed", String(torchOn));
+  if (b.hidden) b.classList.remove("nudge");
+}
+async function setTorch(on) {
+  const track = camTrack();
+  if (!track) return;
+  try {
+    await track.applyConstraints({ advanced: [{ torch: on }] });
+    torchOn = on;
+  } catch {
+    if (on) { torchOn = false; toastError(t("err.torch"), 2500); }
+  }
+  updateTorch();
+}
+
+// ── luz ambiente ─────────────────────────────────────────────────────────────
+// Brillo medio del cuadro (luma 0–255) en una miniatura de 32×32, unas 2–3 veces por segundo.
+// Con histéresis para que el aviso no titile en el límite.
+const DARK_ON = 55, DARK_OFF = 70, LUMA_EVERY_MS = 400;
+const lumaCv = document.createElement("canvas"); lumaCv.width = lumaCv.height = 32;
+const lumaCtx = lumaCv.getContext("2d", { willReadFrequently: true });
+let lumaAt = 0;
+function sampleLuma(now) {
+  if (now - lumaAt < LUMA_EVERY_MS) return;
+  lumaAt = now;
+  lumaCtx.drawImage(video, 0, 0, 32, 32);
+  const d = lumaCtx.getImageData(0, 0, 32, 32).data;
+  let s = 0;
+  for (let i = 0; i < d.length; i += 4) s += 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+  const y = s / (d.length / 4);
+  live.luma = live.luma < 0 ? y : 0.6 * live.luma + 0.4 * y;
+  live.dark = live.dark ? live.luma < DARK_OFF : live.luma < DARK_ON;
 }
 
 // ── MediaPipe (mismos assets que la app) ─────────────────────────────────────
@@ -202,6 +251,8 @@ function loop() {
       } else { live.inBounds = false; live.facing = "none"; }
       if (live.hand && live.inBounds && live.facing === "palm") { if (!live.okSince) live.okSince = now; } else live.okSince = 0;
       $("guide").style.opacity = live.hand ? 0 : 1;
+      sampleLuma(now);
+      $("btnTorch").classList.toggle("nudge", live.dark && !live.hand && !torchOn && !$("btnTorch").hidden);
       if (now > errUntil) hint();
     }
   }
@@ -209,6 +260,7 @@ function loop() {
 }
 function hint() {
   if (!imageLm) return toast(t("hint.loading"));
+  if (!live.hand && live.dark) return toast(t(torchSupported() && !torchOn ? "hint.darkTorch" : "hint.dark"), "warn");
   if (!live.hand) return toast(t("hint.showPalm"));
   if (live.facing === "back") return toast(t("hint.back"), "err");
   if (live.facing === "side") return toast(t("hint.side"), "warn");
@@ -303,6 +355,7 @@ function reportCaptureFail(reason) {
 // ── resultado ────────────────────────────────────────────────────────────────
 let resActions = {};
 function showResult(r) {
+  if (torchOn) setTorch(false);         // ya hay resultado: la linterna no hace falta
   lastResult = r;
   const { ok, ms, score, main, sec } = r;
   const title = t(r.title), text = t(r.text, r.vars);
@@ -418,6 +471,7 @@ $("modeVerify").onclick = () => setMode("verify");
 $("btnGo").onclick = run;
 $("btnForget").onclick = () => { setToken(null); toastError(t("msg.tokenDeleted"), 2500); };
 $("btnMirror").onclick = () => setMirror(!video.classList.contains("mirror"));
+$("btnTorch").onclick = () => setTorch(!torchOn);
 $("btnFlip").onclick = async () => {
   if (cams.length < 2) return;
   camIdx = (camIdx + 1) % cams.length;

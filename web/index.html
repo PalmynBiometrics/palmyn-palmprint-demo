@@ -45,6 +45,10 @@
   .gh svg { fill:currentColor; stroke:none; width:16px; height:16px; }
   @media (max-width:380px) { #scrConsent .pill, #scrResult .pill { display:none; } }
   .ibtn svg { width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .ibtn[aria-pressed="true"] { background:var(--amber); color:#2a1a00; border-color:transparent; }
+  .ibtn.nudge { border-color:var(--amber); color:var(--amber); animation:nudge 1.2s ease-in-out infinite; }
+  @keyframes nudge { 0%,100% { box-shadow:0 0 0 0 rgba(255,180,84,.55) } 50% { box-shadow:0 0 0 6px rgba(255,180,84,0) } }
+  @media (prefers-reduced-motion: reduce) { .ibtn.nudge { animation:none; } }
 
   .eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--blue2); }
   h1 { font-size:30px; line-height:1.1; margin:8px 0 6px; letter-spacing:-.02em; }
@@ -158,6 +162,7 @@
       <div class="logo"><img src="logo-mark.png" alt="" width="26" height="26">Palmyn</div>
       <div class="icons">
         <button class="lang" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg><span>ES</span></button>
+        <button class="ibtn" id="btnTorch" type="button" aria-pressed="false" hidden data-i18n-title="cam.torch" data-i18n-aria="cam.torch"><svg viewBox="0 0 24 24"><path d="M8 2h8v4l-2 3v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V9L8 6z"/><path d="M8 6h8M12 13v2"/></svg></button>
         <button class="ibtn" id="btnFlip" data-i18n-title="cam.flip" data-i18n-aria="cam.flip"><svg viewBox="0 0 24 24"><path d="M4 7h11l-3-3M20 17H9l3 3"/></svg></button>
         <button class="ibtn" id="btnMirror" data-i18n-title="cam.mirror" data-i18n-aria="cam.mirror"><svg viewBox="0 0 24 24"><path d="M12 3v18M8 7l-4 5 4 5M16 7l4 5-4 5"/></svg></button>
       </div>
